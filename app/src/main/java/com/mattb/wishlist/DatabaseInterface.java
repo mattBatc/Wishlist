@@ -11,12 +11,12 @@ public class DatabaseInterface {
 
     public static void delItem(@NonNull final AppDatabase db, Item item){
         db.itemDAO().deleteItem(item);
-        Log.d(DatabaseInterface.TAG,"Deleted" + item.name);
+        Log.d(DatabaseInterface.TAG,"Deleted" + item.getName());
     }
 
     public static void addItem(@NonNull final AppDatabase db, Item item){
         db.itemDAO().insert(item);
-        Log.d(DatabaseInterface.TAG,"Added" + item.name);
+        Log.d(DatabaseInterface.TAG,"Added" + item.getName());
     }
 
     public static void nukeList(@NonNull final AppDatabase db){

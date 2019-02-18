@@ -11,7 +11,7 @@
     <ListView
         android:id="@+id/itemList"
         android:layout_width="395dp"
-        android:layout_height="530dp"
+        android:layout_height="555dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

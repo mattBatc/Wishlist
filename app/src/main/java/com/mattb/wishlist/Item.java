@@ -6,17 +6,46 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(tableName = "item_table")@ForeignKey(entity = Group.class, parentColumns = "id", childColumns = "group")
+@Entity(tableName = "item_table")
 public class Item {
 
+
+    public Item() {
+    }
+
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
+
+    @ColumnInfo(name = "name")
+    private String name;
+
+    @ColumnInfo(name = "name")
+    private double price;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @NonNull
-    public String name;
+    public String getName() {
+        return name;
+    }
 
-    public double price;
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
 
-    @ColumnInfo(name = "group")
-    public String group;
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
 }
