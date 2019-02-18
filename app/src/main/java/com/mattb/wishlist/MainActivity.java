@@ -3,7 +3,6 @@ package com.mattb.wishlist;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,15 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static android.widget.AdapterView.*;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
     private static final String TAG = MainActivity.class.getName();
-    AppDatabase db;
     List<Item> items;
     Item selected;
     ListView itemList;
@@ -51,9 +52,10 @@ public class MainActivity extends AppCompatActivity  {
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
+        navigationView.setNavigationItemSelectedListener(this);
 
         setup();
+        //updateList();
     }
 
 
@@ -69,6 +71,32 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
     }
+
+    public void updateList(){
+        items = DatabaseInterface.getList(AppDatabase.getDatabase(this));
+        List<Map<String,String>> names = new ArrayList<>();
+        if(items.size()!=0){
+            for(int x =0;x<items.size();x++){
+                Item i = items.get(x);
+                Map<String,String> info = new HashMap<>(2);
+                info.put("Item",i.name);
+                info.put("Group",i.group);
+                names.add(info);
+            }
+        }
+        else{
+            //Add no items
+        }
+
+        SimpleAdapter adapter = new SimpleAdapter(this,names,
+                android.R.layout.simple_list_item_2,
+                new String[]{"Item","User"},
+                new int[]{android.R.id.text1, android.R.id.text2});
+
+        itemList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -102,6 +130,7 @@ public class MainActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
