@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = Item.class,version = 1)
+@Database(entities = {Item.class,Group.class} ,version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ItemDAO itemDAO();
 
@@ -20,6 +20,9 @@ public abstract class AppDatabase extends RoomDatabase {
             }
         }
         return INSTANCE;
+    }
+    public static void destroyInstance(){
+        INSTANCE = null;
     }
 }
 

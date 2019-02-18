@@ -13,13 +13,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import static android.widget.AdapterView.*;
 
+public class MainActivity extends AppCompatActivity  {
+
+    private static final String TAG = MainActivity.class.getName();
     AppDatabase db;
     List<Item> items;
+    Item selected;
+    ListView itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
 
         setup();
     }
@@ -54,8 +61,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void setup(){
-        db = AppDatabase.getDatabase(this);
-
+        itemList = (ListView) findViewById(R.id.itemList);
+        itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selected = items.get(position);
+            }
+        });
     }
 
     @Override
@@ -90,8 +102,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
