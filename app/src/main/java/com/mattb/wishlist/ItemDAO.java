@@ -6,6 +6,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ public interface ItemDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void saveAll(List<Item> items);
+
+    @Update
+    void updateItems(Item...items);
 
     @Insert
     void insert(Item item);
@@ -25,5 +29,5 @@ public interface ItemDAO {
     void deleteAll();
 
     @Query("SELECT * FROM item_table ORDER BY name ASC")
-    LiveData<List<Item>> getAllItems();
+    List<Item> getAllItems();
 }
